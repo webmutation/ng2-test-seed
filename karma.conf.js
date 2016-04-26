@@ -26,6 +26,7 @@ module.exports = function(config) {
 
       // Angular 2 itself and the testing library.
       'node_modules/angular2/bundles/angular2.js',
+      'node_modules/angular2/bundles/router.dev.js',
       'node_modules/angular2/bundles/testing.dev.js',
 
 
