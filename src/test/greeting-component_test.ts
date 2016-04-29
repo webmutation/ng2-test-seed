@@ -12,6 +12,7 @@ import {
   tick
 } from '@angular/core/testing';
 import {
+  ComponentFixture,
   TestComponentBuilder
 } from '@angular/compiler/testing';
 import { provide } from '@angular/core';
@@ -38,7 +39,7 @@ describe('greeting component', () => {
   }));
 
   it('should ask for PIN', async(() => {
-    builder.createAsync(GreetingComponent).then((fixture) => {
+    builder.createAsync(GreetingComponent).then((fixture: ComponentFixture) => {
       fixture.detectChanges();
       var compiled = fixture.debugElement.nativeElement;
 
@@ -49,7 +50,7 @@ describe('greeting component', () => {
   }));
 
   it('should change greeting', async(() => {
-    builder.createAsync(GreetingComponent).then((fixture) => {
+    builder.createAsync(GreetingComponent).then((fixture: ComponentFixture) => {
       fixture.detectChanges();
 
       fixture.debugElement.componentInstance.greeting = 'Foobar';
@@ -62,7 +63,7 @@ describe('greeting component', () => {
 
   it('should override the template', async(() => {
     builder.overrideTemplate(GreetingComponent, `<span>{{greeting}}<span>`)
-        .createAsync(GreetingComponent).then((fixture) => {
+        .createAsync(GreetingComponent).then((fixture: ComponentFixture) => {
           fixture.detectChanges();
 
           var compiled = fixture.debugElement.nativeElement;
@@ -71,7 +72,7 @@ describe('greeting component', () => {
       }));
 
   it('should accept pin', async(() => {
-    builder.createAsync(GreetingComponent).then((fixture) => {
+    builder.createAsync(GreetingComponent).then((fixture: ComponentFixture) => {
       fixture.detectChanges();
       var compiled = fixture.debugElement.nativeElement;
       compiled.querySelector('button').click();
