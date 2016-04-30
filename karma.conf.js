@@ -6,12 +6,14 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
 
     files: [
-      // System.js for module loading
-      // 'node_modules/systemjs/dist/system-polyfills.js',
-      // 'node_modules/systemjs/dist/system.src.js',
-
       // Polyfills.
       'node_modules/es6-shim/es6-shim.js',
+
+      'node_modules/reflect-metadata/Reflect.js',
+
+      // System.js for module loading
+      'node_modules/systemjs/dist/system-polyfills.js',
+      'node_modules/systemjs/dist/system.src.js',
 
       // Zone.js dependencies
       'node_modules/zone.js/dist/zone.js',
@@ -19,9 +21,6 @@ module.exports = function(config) {
       'node_modules/zone.js/dist/async-test.js',
       'node_modules/zone.js/dist/fake-async-test.js',
 
-      { pattern: 'node_modules/reflect-metadata/Reflect.js', included: true, watched: false },
-
-      { pattern: 'https://code.angularjs.org/tools/system.js', included: true, watched: false },
       // RxJs.
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/rxjs/**/*.js.map', included: false, watched: false },

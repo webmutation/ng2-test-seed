@@ -56,7 +56,7 @@ describe('with mocked login', () => {
 describe('with fake async', () => {
   beforeEachProviders(() => [LoginService, UserService]);
 
-  it('should greet (with fakeAsync)', inject([UserService], fakeAsync((service) => {
+  it('should greet (with fakeAsync)', fakeAsync(inject([UserService], (service) => {
     var greeting;
     service.getGreeting().then((value) => {
       greeting = value;
