@@ -60,14 +60,6 @@ System.config(
       main: 'index.js',
       defaultExtension: 'js'
     },
-    '@angular/testing': {
-      main: 'index.js',
-      defaultExtension: 'js'
-    },
-    '@angular/testing/browser': {
-      main: 'index.js',
-      defaultExtension: 'js'
-    },
     'rxjs': {
       defaultExtension: 'js'
     }
