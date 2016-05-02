@@ -39,7 +39,7 @@ describe('greeting component', () => {
   }));
 
   it('should ask for PIN', async(() => {
-    builder.createAsync(GreetingComponent).then((fixture: ComponentFixture) => {
+    builder.createAsync(GreetingComponent).then((fixture: ComponentFixture<GreetingComponent>) => {
       fixture.detectChanges();
       var compiled = fixture.debugElement.nativeElement;
 
@@ -50,7 +50,7 @@ describe('greeting component', () => {
   }));
 
   it('should change greeting', async(() => {
-    builder.createAsync(GreetingComponent).then((fixture: ComponentFixture) => {
+    builder.createAsync(GreetingComponent).then((fixture: ComponentFixture<GreetingComponent>) => {
       fixture.detectChanges();
 
       fixture.debugElement.componentInstance.greeting = 'Foobar';
@@ -63,7 +63,7 @@ describe('greeting component', () => {
 
   it('should override the template', async(() => {
     builder.overrideTemplate(GreetingComponent, `<span>{{greeting}}<span>`)
-        .createAsync(GreetingComponent).then((fixture: ComponentFixture) => {
+      .createAsync(GreetingComponent).then((fixture: ComponentFixture<GreetingComponent>) => {
           fixture.detectChanges();
 
           var compiled = fixture.debugElement.nativeElement;
@@ -72,7 +72,7 @@ describe('greeting component', () => {
       }));
 
   it('should accept pin', async(() => {
-    builder.createAsync(GreetingComponent).then((fixture: ComponentFixture) => {
+    builder.createAsync(GreetingComponent).then((fixture: ComponentFixture<GreetingComponent>) => {
       fixture.detectChanges();
       var compiled = fixture.debugElement.nativeElement;
       compiled.querySelector('button').click();
