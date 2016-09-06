@@ -41,6 +41,6 @@
     "karma-jasmine": "^1.0.2",
     "rimraf": "^2.4.3",
     "typescript": "1.8.10",
-    "typings": "^0.6.6" //upgrading typings breaks the build
+    "typings": "^0.6.6"
   }
 }
