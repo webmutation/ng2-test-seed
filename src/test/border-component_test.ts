@@ -1,45 +1,50 @@
 import {
-  iit,
-  it,
-  ddescribe,
-  describe,
-  expect,
   async,
   inject,
-  beforeEachProviders
-} from '@angular/core/testing';
-import {
-  TestComponentBuilder,
+  TestBed,
   ComponentFixture
-} from '@angular/compiler/testing';
+} from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { BorderComponent } from '../app/border-component';
 
 @Component({
   template: '',
-  directives: [BorderComponent]
 })
 class TestComponent {
 }
 
 describe('greeting component', () => {
-  it('should wrap content', async(inject([TestComponentBuilder], (tcb) => {
-    tcb.overrideTemplate(TestComponent, '<my-fancy-border>Content</my-fancy-border>')
-        .createAsync(TestComponent).then((fixture: ComponentFixture<TestComponent>) => {
-          fixture.detectChanges();
-          var compiled = fixture.debugElement.nativeElement;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [TestComponent, BorderComponent]
+    });
+  });
 
-          expect(compiled).toContainText('Content');
-        });
-  })));
+  it('should wrap content', async(() => {
+    TestBed.overrideComponent(TestComponent, {set: {
+      template: '<my-fancy-border>Content</my-fancy-border>'
+    }});
 
-  it('should include a title', async(inject([TestComponentBuilder], (tcb) => {
-    tcb.overrideTemplate(TestComponent, '<my-fancy-border title="ABC"></my-fancy-border>')
-        .createAsync(TestComponent).then((fixture: ComponentFixture<TestComponent>) => {
-          fixture.detectChanges();
-          var compiled = fixture.debugElement.nativeElement;
+    TestBed.compileComponents().then(() => {
+      var fixture = TestBed.createComponent(TestComponent);
+      fixture.detectChanges();
+      var compiled = fixture.debugElement.nativeElement;
 
-          expect(compiled).toContainText('ABC');
-        });
-  })));
+      expect(compiled).toContainText('Content');
+    });
+  }));
+
+  it('should wrap content', async(() => {
+    TestBed.overrideComponent(TestComponent, {set: {
+      template: '<my-fancy-border title="ABC"></my-fancy-border>'
+    }});
+
+    TestBed.compileComponents().then(() => {
+      var fixture = TestBed.createComponent(TestComponent);
+      fixture.detectChanges();
+      var compiled = fixture.debugElement.nativeElement;
+
+      expect(compiled).toContainText('ABC');
+    });
+  }));
 });
