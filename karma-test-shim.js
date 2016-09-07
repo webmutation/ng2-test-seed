@@ -1,6 +1,6 @@
 /*global jasmine, __karma__, window*/
 Error.stackTraceLimit = Infinity;
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 3000;
 
 __karma__.loaded = function () {
 };
@@ -30,44 +30,32 @@ System.config({
 
 System.config(
 {
+  paths: {
+    // paths serve as alias
+    'npm:': 'node_modules/'
+  },
   map: {
-    'rxjs': 'node_modules/rxjs',
-    '@angular': 'node_modules/@angular',
-    'app': 'built'
+    'app': 'built',
+    '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
+    '@angular/common': 'npm:@angular/common/bundles/common.umd.js',
+    '@angular/compiler': 'npm:@angular/compiler/bundles/compiler.umd.js',
+    '@angular/platform-browser': 'npm:@angular/platform-browser/bundles/platform-browser.umd.js',
+    '@angular/platform-browser-dynamic': 'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
+
+    // angular testing umd bundles
+    '@angular/core/testing': 'npm:@angular/core/bundles/core-testing.umd.js',
+    '@angular/common/testing': 'npm:@angular/common/bundles/common-testing.umd.js',
+    '@angular/compiler/testing': 'npm:@angular/compiler/bundles/compiler-testing.umd.js',
+    '@angular/platform-browser/testing': 'npm:@angular/platform-browser/bundles/platform-browser-testing.umd.js',
+    '@angular/platform-browser-dynamic/testing': 'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js',
+
+    // other libraries
+    'rxjs': 'npm:rxjs',
   },
   packages: {
     'app': {
-      main: 'main.js',
       defaultExtension: 'js'
     },
-    '@angular/core': {
-      main: 'index.js',
-      defaultExtension: 'js'
-    },
-    '@angular/compiler': {
-      main: 'index.js',
-      defaultExtension: 'js'
-    },
-    '@angular/common': {
-      main: 'index.js',
-      defaultExtension: 'js'
-    },
-    '@angular/platform-browser': {
-      main: 'index.js',
-      defaultExtension: 'js'
-    },
-    '@angular/platform-browser-dynamic': {
-      main: 'index.js',
-      defaultExtension: 'js'
-    },
-    // '@angular/router-deprecated': {
-    //   main: 'index.js',
-    //   defaultExtension: 'js'
-    // },
-    // '@angular/router': {
-    //   main: 'index.js',
-    //   defaultExtension: 'js'
-    // },
     'rxjs': {
       defaultExtension: 'js'
     }
@@ -81,8 +69,8 @@ Promise.all([
   var testing = providers[0];
   var testingBrowser = providers[1];
 
-  testing.setBaseTestProviders(testingBrowser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
-    testingBrowser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS);
+  testing.TestBed.initTestEnvironment(testingBrowser.BrowserDynamicTestingModule,
+    testingBrowser.platformBrowserDynamicTesting());
 
 }).then(function() {
   // Finally, load all spec files.

@@ -15,7 +15,8 @@
     "build": "tsc && npm run copy && npm run copytemplates",
     "watch": "tsc --watch",
     "serve": "http-server -p 9090 -c-1",
-    "test": "karma start karma.conf.js"
+    "test": "karma start karma.conf.js ",
+    "posttest": "./node_modules/.bin/remap-istanbul -i coverage/coverage-final.json -o coverage -t html"
   },
   "dependencies": {
     "@angular/common": "2.0.0-rc.6",
@@ -34,11 +35,14 @@
   "devDependencies": {
     "http-server": "^0.9.0",
     "jasmine": "2.3.2",
-    "karma": "1.2.0",
+    "karma": "^1.2.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-cli": "^1.0.1",
+    "karma-coverage": "^1.1.1",
     "karma-firefox-launcher": "^1.0.0",
     "karma-jasmine": "^1.0.2",
+    "karma-remap-istanbul": "^0.1.1",
+    "remap-istanbul": "^0.6.4",
     "rimraf": "^2.4.3",
     "typescript": "1.8.10",
     "typings": "^0.6.6"
