@@ -2,15 +2,17 @@ import { inject, async, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { UserService } from '../app/user-service';
 import { LoginService } from '../app/login-service';
 
-
-
+//We will test the UserService with this suite of tests
 describe('user service', () => {
+  //Make the services available to us for each test
   beforeEach(() => {
+    //Import the UserService, since it has a dependency on LoginService we add it to the providers as well.
     TestBed.configureTestingModule({
       providers: [LoginService, UserService]
     });
   });
 
+  //We can now inject the service and start writing our expectations
   it('should validate pins', inject([UserService], (service) => {
     service.pin = 12345;
     expect(service.isValidPin()).toBe(false);
@@ -25,6 +27,7 @@ describe('user service', () => {
     expect(service.isValidPin()).toBe(false);
   }));
 
+  //We can now validate that the login success or fails according to a pin. getGreeting uses LoginService
   it('should greet when pin is wrong', async(inject([UserService], (service) => {
     service.pin = 9999;
     service.getGreeting().then((greeting) => {

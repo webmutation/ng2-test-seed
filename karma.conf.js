@@ -1,6 +1,6 @@
 //reports on the built js files, is not remapping to
 
-module.exports = function(config) {
+module.exports = function (config) {
     config.set({
 
         basePath: '',
@@ -26,8 +26,8 @@ module.exports = function(config) {
             'node_modules/zone.js/dist/fake-async-test.js',
 
             // RxJs.
-            { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
-            { pattern: 'node_modules/rxjs/**/*.js.map', included: false, watched: false },
+            {pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false},
+            {pattern: 'node_modules/rxjs/**/*.js.map', included: false, watched: false},
 
 
             {pattern: 'karma-test-shim.js', included: true, watched: true},
@@ -68,6 +68,7 @@ module.exports = function(config) {
             "built/app/*.js": ["coverage"]
         },
         // Coverage reporter generates the coverage
+        //reporters: ['progress', 'coverage'],
         reporters: ['progress', 'coverage'],
 
         coverageReporter: {

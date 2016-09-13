@@ -1,105 +1,126 @@
-import {
-  inject,
-  async,
-  fakeAsync,
-  tick,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
-import { UserService } from '../app/user-service';
-import { LoginService } from '../app/login-service';
-import { GreetingComponent } from '../app/greeting-component';
+import {async, fakeAsync, tick, TestBed } from '@angular/core/testing';
+import {UserService} from '../app/user-service';
+import {LoginService} from '../app/login-service';
+import {GreetingComponent} from '../app/greeting-component';
 
 class MockLoginService extends LoginService {
-  login(pin: number) {
-    return Promise.resolve(true);
-  }
+    login(pin: number) {
+        return Promise.resolve(true);
+    }
 }
 
 describe('greeting component', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [GreetingComponent],
-      providers: [
-        {provide: LoginService, useClass: MockLoginService },
-        UserService
-      ]
+    beforeEach(() => {
+        //Lets Import our GreetingComponent and the Services that it uses, in this case we will mock the LoginService using useClass: MockLoginService
+        TestBed.configureTestingModule({
+            declarations: [GreetingComponent],
+            providers: [{provide: LoginService, useClass: MockLoginService}, UserService]
+        });
     });
-  });
 
-  describe('without overriding', () => {
-    beforeEach(async(() => {
-      TestBed.compileComponents();
-    }));
+    describe('without overriding', () => {
+        //We compile the component so that it is available for testing
+        beforeEach(async(() => {
+            TestBed.compileComponents();
+        }));
 
-    it('should ask for PIN', async(() => {
-      var fixture = TestBed.createComponent(GreetingComponent);
-      fixture.detectChanges();
-      var compiled = fixture.debugElement.nativeElement;
+        it('should ask for PIN', async(() => {
+            //We instantiate our component
+            let fixture = TestBed.createComponent(GreetingComponent);
 
+            //trigger the change detector
+            fixture.detectChanges();
 
-      expect(compiled).toContainText('Enter PIN');
-      expect(compiled.querySelector('h3')).toHaveText('Status: Enter PIN');
-    }));
+            //and we now have a reference to the element like it would be rendered
+            let compiled = fixture.debugElement.nativeElement;
 
-    it('should change the greeting', async(() => {
-      var fixture = TestBed.createComponent(GreetingComponent);
-      fixture.detectChanges();
+            //We expect the element to have the words Enter Pin by using a custom toContainText matcher. (This is our own custom matcher)
+            //I.E. we are essentially expecting that the gretting propriety of the component was instantiated correctly with "greeting: string = 'Enter PIN';"
+            expect(compiled).toContainText('Enter PIN');
 
-      fixture.debugElement.componentInstance.greeting = 'Foobar';
+            //We can then verify that the DOM is being properly rendered in our greeting-component template
+            //we have a line <h3>Status: {{greeting}}</h3>, we can now validate that the h3 element was properly rendered.
+            expect(compiled.querySelector('h3')).toHaveText('Status: Enter PIN');
+        }));
 
-      fixture.detectChanges();
-      var compiled = fixture.debugElement.nativeElement;
-      expect(compiled.querySelector('h3')).toHaveText('Status: Foobar');
-    }));
+        it('should change the greeting', async(() => {
+            let fixture = TestBed.createComponent(GreetingComponent);
+            fixture.detectChanges();
 
-    it('should accept pin', async(() => {
-      var fixture = TestBed.createComponent(GreetingComponent);
-      fixture.detectChanges();
-      var compiled = fixture.debugElement.nativeElement;
-      compiled.querySelector('button').click();
+            //we have a test element ready to be altered, let set the greeting propriety to "Foobar"
+            //we can now get the instance and change the value of the propriety
+            fixture.debugElement.componentInstance.greeting = 'Foobar';
 
-      fixture.debugElement.componentInstance.pending.then(() => {
-        fixture.detectChanges();
-        expect(compiled.querySelector('h3')).toHaveText('Status: Welcome!');
-      });
-    }));
+            //for the change to be effective we have to trigger the change detector
+            fixture.detectChanges();
 
-    it('should accept pin (with whenStable)', async(() => {
-      var fixture = TestBed.createComponent(GreetingComponent);
-      fixture.detectChanges();
-      var compiled = fixture.debugElement.nativeElement;
-      compiled.querySelector('button').click();
+            //we now want to see if the changes are effective on the rendered template and for that we can use nativeElement
+            let compiled = fixture.debugElement.nativeElement;
 
-      fixture.whenStable().then(() => {
-        fixture.detectChanges();
-        expect(compiled.querySelector('h3')).toHaveText('Status: Welcome!');
-      });
-    }));
+            //We now have tested that the greeting is effectively changed.
+            expect(compiled.querySelector('h3')).toHaveText('Status: Foobar');
+        }));
 
-    it('should accept pin (with fakeAsync)', fakeAsync(() => {
-      var fixture = TestBed.createComponent(GreetingComponent);
+        it('should accept pin', async(() => {
+            let fixture = TestBed.createComponent(GreetingComponent);
+            fixture.detectChanges();
+            let compiled = fixture.debugElement.nativeElement;
 
-      var compiled = fixture.debugElement.nativeElement;
-      compiled.querySelector('button').click();
+            //we can also run events on elements, in this case we are triggering the click event
+            compiled.querySelector('button').click();
 
-      tick();
-      fixture.detectChanges();
-      expect(compiled.querySelector('h3')).toHaveText('Status: Welcome!');
-    }));
-  });
+            //we wait until the event finish by using componentInstance.pending (AsyncAction)
+            fixture.debugElement.componentInstance.pending.then(() => {
+                fixture.detectChanges();
+                expect(compiled.querySelector('h3')).toHaveText('Status: Welcome!');
+            });
+        }));
 
-  describe('overriding', () => {
-    it('should override the template', async(() => {
-      TestBed.overrideComponent(GreetingComponent, {set: {
-        template: `<span>Foo {{greeting}}<span>`
-      }}).compileComponents().then(() => {
-        var fixture = TestBed.createComponent(GreetingComponent);
-        fixture.detectChanges();
+        it('should accept pin (with whenStable)', async(() => {
+            let fixture = TestBed.createComponent(GreetingComponent);
+            fixture.detectChanges();
+            let compiled = fixture.debugElement.nativeElement;
+            compiled.querySelector('button').click();
 
-        var compiled = fixture.debugElement.nativeElement;
-        expect(compiled).toHaveText('Foo Enter PIN');
-      });
-    }));
-  });
+            //The same setup, the only change is that we now call whenStable, that waits until all async events are resolved
+            fixture.whenStable().then(() => {
+                fixture.detectChanges();
+                expect(compiled.querySelector('h3')).toHaveText('Status: Welcome!');
+            });
+        }));
+
+        //we can create a fakeAsync zone that we manually control using tick
+        it('should accept pin (with fakeAsync)', fakeAsync(() => {
+            let fixture = TestBed.createComponent(GreetingComponent);
+
+            let compiled = fixture.debugElement.nativeElement;
+            compiled.querySelector('button').click();
+
+            //Here we call tick to signal passage of time
+            tick();
+            fixture.detectChanges();
+            expect(compiled.querySelector('h3')).toHaveText('Status: Welcome!');
+        }));
+    });
+
+    //we can also override our components by setting properties
+    describe('overriding', () => {
+        it('should override the template', async(() => {
+            //here we override the component template to present Foo {{greeting}} instead of the component template
+            TestBed.overrideComponent(GreetingComponent, {
+                set: {
+                    template: `<span>Foo {{greeting}}<span>`
+                }
+                //Here we recompile the component with our changes and the rest is similar.
+            }).compileComponents().then(() => {
+                let fixture = TestBed.createComponent(GreetingComponent);
+                fixture.detectChanges();
+
+                let compiled = fixture.debugElement.nativeElement;
+                //we expect our component to have the text Foo since this is our new template and because
+                //greeting: string = 'Enter PIN'; our greeting is Enter Pin.
+                expect(compiled).toHaveText('Foo Enter PIN');
+            });
+        }));
+    });
 });

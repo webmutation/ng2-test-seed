@@ -41,7 +41,6 @@
     "karma-coverage": "^1.1.1",
     "karma-firefox-launcher": "^1.0.0",
     "karma-jasmine": "^1.0.2",
-    "karma-remap-istanbul": "^0.1.1",
     "remap-istanbul": "^0.6.4",
     "rimraf": "^2.4.3",
     "typescript": "1.8.10",

@@ -6,13 +6,15 @@ import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {GreetingComponent} from './greeting-component';
 import {BorderComponent} from './border-component';
+import {logClicks} from './logclicks-directive';
 
 @NgModule({
-  declarations: [AppComponent, GreetingComponent, BorderComponent],
-  providers: [LoginService, UserService],
-  imports: [BrowserModule],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent, GreetingComponent, BorderComponent, logClicks],
+    providers: [LoginService, UserService],
+    imports: [BrowserModule],
+    bootstrap: [AppComponent],
 })
-export class MyAppModule{}
+export class MyAppModule {
+}
 
 platformBrowserDynamic().bootstrapModule(MyAppModule);
