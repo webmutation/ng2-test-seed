@@ -7,11 +7,14 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {GreetingComponent} from './greeting-component';
 import {BorderComponent} from './border-component';
 import {logClicks} from './logclicks-directive';
+import {HttpModule} from '@angular/http';
+import {Http, ConnectionBackend, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
+
 
 @NgModule({
     declarations: [AppComponent, GreetingComponent, BorderComponent, logClicks],
-    providers: [LoginService, UserService],
-    imports: [BrowserModule],
+    providers: [LoginService, UserService, Http],
+    imports: [BrowserModule, HttpModule],
     bootstrap: [AppComponent],
 })
 export class MyAppModule {

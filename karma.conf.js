@@ -29,6 +29,8 @@ module.exports = function (config) {
             {pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false},
             {pattern: 'node_modules/rxjs/**/*.js.map', included: false, watched: false},
 
+            // serve mock json file
+            { pattern: 'built/api/*.json', watched: true, served:  true, included: false},
 
             {pattern: 'karma-test-shim.js', included: true, watched: true},
             {pattern: 'built/test/matchers.js', included: true, watched: true},
@@ -54,7 +56,9 @@ module.exports = function (config) {
         // proxied base paths
         proxies: {
             // required for component assests fetched by Angular's compiler
-            "/built/app/": "/base/built/app/"
+            "/built/app/": "/base/built/app/",
+            // remap to fetch the mock json file
+            "/built/api/": "/base/built/api/"
         },
 
         port: 9876,
