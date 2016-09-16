@@ -73,7 +73,7 @@ module.exports = function (config) {
         },
         // Coverage reporter generates the coverage
         //reporters: ['progress', 'coverage'],
-        reporters: ['progress', 'coverage'],
+        reporters: ['spec', 'coverage'],
 
         coverageReporter: {
             instrumenterOptions: {
